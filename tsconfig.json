@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "module": "commonjs",
+    "useUnknownInCatchVariables": false,
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
+    "sourceMap": true,
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "lib": ["ES2021.String", "dom"],
+    "tsBuildInfoFile": ".tsbuildinfo",
+    "paths": {
+      "@app/": ["src/app"],
+      "@app/*": ["src/app/*"],
+      "@libs": ["src/libs"],
+      "@libs/*": ["src/libs/*"],
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}

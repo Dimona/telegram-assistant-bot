@@ -1,0 +1,15 @@
+# Don't check auto-generated stuff into git
+node_modules
+dist
+**/.env*
+test.html
+src/app/services/migration/logs
+/.vscode/
+.clinic
+.tsbuildinfo
+tmp
+.npmrc
+/.eslintcache
+# Ignore generated reports
+*.xlsx
+coverage
