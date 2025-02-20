@@ -1,0 +1,45 @@
+service: telegram-assistant-bot
+
+frameworkVersion: '3'
+provider:
+  name: aws
+  stage: prod
+  runtime: nodejs22.x
+  architecture: arm64
+  region: eu-central-1
+  timeout: 30
+  deploymentMethod: direct
+  versionFunctions: false
+#  memorySize: 1024
+  environment:
+    ENVIRONMENT: ${self:provider.stage}
+    TELEGRAM_BOT_TOKEN: ${env:TELEGRAM_BOT_TOKEN}
+    OPENAI_API_KEY: ${env:OPENAI_API_KEY}
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+  iam:
+    role:
+      name: ${self:service}-${self:provider.stage}
+      path: /lambda-${self:provider.stage}/
+      tags:
+        app: robot_dreams_ai
+        env: ${self:provider.stage}
+
+plugins:
+  - serverless-offline
+  - serverless-webpack
+
+functions:
+  telegramWebhook:
+    handler: src/index.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
+custom:
+  webpack:
+    webpackConfig: 'webpack.config.js' # Name of webpack configuration file
+    includeModules: true # Node modules configuration for packaging
+    packager: 'npm' # Packager that will be used to package your external modules
