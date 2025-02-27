@@ -3,7 +3,7 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const webpack = require('webpack');
 const slsw = require('serverless-webpack');
 const TerserPlugin = require('terser-webpack-plugin');
-const copyPlugin = require('copy-webpack-plugin');
+// const copyPlugin = require('copy-webpack-plugin');
 const swcDefaultConfig = require('@nestjs/cli/lib/compiler/defaults/swc-defaults').swcDefaultsFactory().swcOptions;
 
 const entries = slsw.lib.entries;
@@ -47,7 +47,7 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.js'],
-    plugins: [new TsconfigPathsPlugin({ configFile: path.resolve(__dirname, 'tsconfig.build.json') })],
+    plugins: [new TsconfigPathsPlugin({ configFile: './tsconfig.build.json' })],
     symlinks: false,
   },
   plugins: [

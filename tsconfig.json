@@ -28,8 +28,16 @@
     "paths": {
       "@app/": ["src/app"],
       "@app/*": ["src/app/*"],
-      "@libs": ["src/libs"],
-      "@libs/*": ["src/libs/*"],
+      "@libs": ["src/_libs"],
+      "@libs/*": ["src/_libs/*"],
+      "@telegram": ["src/telegram"],
+      "@telegram/*": ["src/telegram/*"],
+      "@open-ai": ["src/open-ai"],
+      "@open-ai/*": ["src/open-ai/*"],
+      "@hf": ["src/hugging-face"],
+      "@hf/*": ["src/hugging-face/*"],
+      "@stability-ai": ["src/stability-ai"],
+      "@stability-ai/*": ["src/stability-ai/*"]
     }
   },
   "exclude": ["node_modules", "dist"]

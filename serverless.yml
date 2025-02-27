@@ -1,6 +1,10 @@
 service: telegram-assistant-bot
 
-frameworkVersion: '3'
+frameworkVersion: '4'
+
+build:
+  esbuild: false
+
 provider:
   name: aws
   stage: prod
@@ -14,7 +18,11 @@ provider:
   environment:
     ENVIRONMENT: ${self:provider.stage}
     TELEGRAM_BOT_TOKEN: ${env:TELEGRAM_BOT_TOKEN}
-    OPENAI_API_KEY: ${env:OPENAI_API_KEY}
+    TELEGRAM_WEBHOOK_DOMAIN: ${env:TELEGRAM_WEBHOOK_DOMAIN}
+    TELEGRAM_WEBHOOK_PATH: ${env:TELEGRAM_WEBHOOK_PATH}
+    OPEN_AI_API_KEY: ${env:OPEN_AI_API_KEY}
+    HF_TOKEN: ${env:HF_TOKEN}
+    STABILITY_AI_API_KEY: ${env:STABILITY_AI_API_KEY}
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
   iam:
     role:
@@ -29,7 +37,7 @@ plugins:
   - serverless-webpack
 
 functions:
-  telegramWebhook:
+  index:
     handler: src/index.handler
     events:
       - http:
@@ -40,6 +48,6 @@ functions:
           path: '{proxy+}'
 custom:
   webpack:
-    webpackConfig: 'webpack.config.js' # Name of webpack configuration file
+    webpackConfig: './webpack.config.js' # Name of webpack configuration file
     includeModules: true # Node modules configuration for packaging
     packager: 'npm' # Packager that will be used to package your external modules

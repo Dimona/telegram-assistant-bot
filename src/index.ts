@@ -1,23 +1,15 @@
-import { Server } from 'http';
-
 import { AppModule } from '@app/app.module';
 import { GLOBAL_PREFIX } from '@app/constants/app.constants';
+import serverlessExpress from '@codegenie/serverless-express';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { APIGatewayProxyHandler } from 'aws-lambda';
-import { createServer, proxy } from 'aws-serverless-express';
-import { eventContext } from 'aws-serverless-express/middleware';
+import { Handler } from 'aws-lambda';
 import { json, urlencoded } from 'body-parser';
 import { useContainer } from 'class-validator';
-import { default as express } from 'express';
 
-let cachedServer: Server;
+let cachedServer: Handler;
 
-const bootstrapServer = async (): Promise<Server> => {
-  const expressApp = express();
-  expressApp.use(eventContext());
-  expressApp.set('etag', false);
-
+const bootstrapServer = async (): Promise<Handler> => {
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalPipes(new ValidationPipe({ forbidUnknownValues: true }));
@@ -32,13 +24,15 @@ const bootstrapServer = async (): Promise<Server> => {
 
   await app.init();
 
-  return createServer(expressApp);
+  const expressApp = app.getHttpAdapter().getInstance();
+
+  return serverlessExpress(expressApp);
 };
 
-export const handler: APIGatewayProxyHandler = async (event, context) => {
+export const handler: Handler = async (event, context, callback) => {
   if (!cachedServer) {
     cachedServer = await bootstrapServer();
   }
 
-  return proxy(cachedServer, event, context, 'PROMISE').promise;
+  return cachedServer(event, context, callback);
 };

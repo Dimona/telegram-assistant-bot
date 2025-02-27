@@ -36,7 +36,7 @@ const jestConfigTsc = {
     'config',
     'tests',
     'mocks',
-    'libs',
+    '_libs',
     'dist',
     'eslint.config.mjs',
   ],

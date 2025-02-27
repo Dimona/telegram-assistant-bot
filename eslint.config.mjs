@@ -19,14 +19,7 @@ const compat = new FlatCompat({
 
 export default [
   {
-    ignores: [
-      '**/eslint.config.mjs',
-      '**/.eslintrc.js',
-      '**/webpack.config.js',
-      '**/jest-setup.ts',
-      '**/node_modules/**',
-      '**/dist/**',
-    ],
+    ignores: ['**/eslint.config.mjs', '**/webpack.config.js', '**/jest-setup.ts', '**/node_modules/**', '**/dist/**'],
   },
   ...compat.extends('airbnb-typescript/base', 'prettier'),
   {
@@ -71,7 +64,7 @@ export default [
         'error',
         {
           devDependencies: true,
-          packageDir: ['./', './apps/crud', './apps/clinic', './apps/user-kpi'],
+          packageDir: ['./', './src'],
         },
       ],
       'no-await-in-loop': 'off',
@@ -102,15 +95,15 @@ export default [
               group: 'external',
             },
             {
+              pattern: '@libs/**',
+              group: 'internal',
+            },
+            {
               pattern: '@smithy/**',
               group: 'external',
             },
             {
               pattern: '@aws-sdk/**',
-              group: 'external',
-            },
-            {
-              pattern: '@eslint/**',
               group: 'external',
             },
             {
