@@ -34,7 +34,9 @@ export class TelegramChangeImageBgCommand {
   async handleStep2(@Ctx() context: Telegram.MessageContext) {
     const { photo } = context.message;
     if (!photo) {
+      await context.reply(Telegram.t.errors.noImage);
       await context.scene.leave();
+      await context.scene.enter(Telegram.Command.ExplainImage);
     }
     try {
       const url = await context.telegram.getFileLink(photo[photo.length - 1].file_id);
@@ -58,14 +60,13 @@ export class TelegramChangeImageBgCommand {
   @WizardStep(3)
   @On('text')
   async handleStep4(@Ctx() context: WizardContext) {
-    if (context.text.startsWith('/')) {
-      await context.scene.leave();
+    if (await TelegramUtils.exit(context)) {
       return;
     }
     const translatedResponse = await this.openAiAssistant.translate(context.text, Lang.EN_US);
 
     if (!translatedResponse.translation) {
-      throw new Error('Text was not translated');
+      throw new Error(Telegram.t.errors.translation);
     }
 
     const srcImage = Buffer.from(await TelegramUtils.download((context.wizard.state as State).imageUrl));
@@ -79,7 +80,6 @@ export class TelegramChangeImageBgCommand {
       source: image,
       filename: 'AI generated file',
     });
-
     await context.scene.leave();
   }
 }

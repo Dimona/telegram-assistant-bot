@@ -45,4 +45,17 @@ export namespace Telegram {
   export type MessageContext = WizardContext & { message: WizardContext['message'] & { photo: File[] } };
 
   export type CommandContext = Context & { scene: SceneContextScene<SessionContext<SceneSession<SceneSessionData>>> };
+
+  export const ABORT_COMMAND = new Set(['відбій', 'вихід', 'відміна', 'стоп', 'stop', 'exit', 'decline', 'cancel']);
+
+  export const t = Object.freeze({
+    noAnswer: 'Нажаль нічого не придумав вам відповісти',
+    commandAborted: 'Команда відмінена',
+    errors: {
+      translation: 'Помилка під час перекладу тексту',
+      noImage: 'Не бачу зображення!!!',
+      somethingWentWrong: 'Щось пішло не так!!!',
+      downloadImage: 'Помилка при завантаженні зображення',
+    },
+  });
 }

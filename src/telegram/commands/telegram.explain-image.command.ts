@@ -14,7 +14,7 @@ export class TelegramExplainImageCommand {
   ) {}
 
   @WizardStep(1)
-  async enter(@Ctx() context: WizardContext) {
+  async handleStep1(@Ctx() context: WizardContext) {
     await context.reply('Завантаж зображення', {
       protect_content: true,
     });
@@ -23,10 +23,12 @@ export class TelegramExplainImageCommand {
 
   @WizardStep(2)
   @On('photo')
-  async handlePhoto(@Ctx() context: Telegram.MessageContext) {
+  async handleStep2(@Ctx() context: Telegram.MessageContext) {
     const { photo } = context.message;
     if (!photo) {
+      await context.reply(Telegram.t.errors.noImage);
       await context.scene.leave();
+      await context.scene.enter(Telegram.Command.ExplainImage);
     }
     try {
       const url = await context.telegram.getFileLink(photo[photo.length - 1].file_id);
