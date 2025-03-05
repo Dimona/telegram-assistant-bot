@@ -45,11 +45,6 @@ export class TelegramChangeImageBgCommand {
       await context.reply('Опиши, як замінити задній фон', {
         protect_content: true,
       });
-      // const response = await this.openaiAssistant.explainImage(url.href);
-      // const result = response.choices[0].message.content;
-      // if (result.length > 0) {
-      //   await context.reply(response.choices[0].message.content);
-      // }
     } catch (err) {
       this.logger.error(err.stack);
       await context.scene.leave();

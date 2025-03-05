@@ -14,3 +14,5 @@ tmp
 *.xlsx
 coverage
 /temp/
+.serverless
+.idea
